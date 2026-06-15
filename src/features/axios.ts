@@ -4,7 +4,7 @@ import { copyDir, writeText } from '../utils/fs.ts'
 import type { MergeAdditions } from '../merge-json.ts'
 import type { UserConfig } from '../prompts.ts'
 
-const TEMPLATES_DIR = fileURLToPath(new URL('../../templates', import.meta.url))
+const TEMPLATES_DIR = fileURLToPath(new URL('../templates', import.meta.url))
 
 export const AXIOS_PKG: MergeAdditions = {
   dependencies: { axios: '^1.16.0' },

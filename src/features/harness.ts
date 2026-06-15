@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { copyDir } from '../utils/fs.ts'
 import type { MergeAdditions } from '../merge-json.ts'
 
-const TEMPLATES_DIR = fileURLToPath(new URL('../../templates', import.meta.url))
+const TEMPLATES_DIR = fileURLToPath(new URL('../templates', import.meta.url))
 
 export const HARNESS_FULL_PKG: MergeAdditions = {
   devDependencies: {
