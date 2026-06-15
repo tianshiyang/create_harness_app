@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read", "Glob", "Grep",
+      "Bash(git status*)", "Bash(git diff*)", "Bash(git log*)", "Bash(git show*)",
+      "Bash(pnpm *)", "Bash(node *)"
+    ],
+    "deny": [
+      "Read(.env*)", "Read(**/.env*)",
+      "Read(*.pem)", "Read(**/*.pem)", "Read(*.key)", "Read(**/*.key)",
+      "Bash(git reset --hard*)", "Bash(git push --force*)",
+      "Bash(rm -rf*)", "Bash(git commit*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash|Read|Write|Edit|MultiEdit|Grep|Agent",
+      "hooks": [{ "type": "command", "command": "node .claude/hooks/guard-tool.cjs", "timeout": 10 }]
+    }],
+    "Stop": [{
+      "matcher": ".*",
+      "hooks": [{ "type": "command", "command": "node .claude/hooks/quality-gate.cjs stop", "timeout": 300 }]
+    }]
+  },
+  "disableBypassPermissionsMode": "disable"
+}
