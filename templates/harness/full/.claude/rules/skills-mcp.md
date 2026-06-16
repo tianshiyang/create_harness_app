@@ -4,10 +4,9 @@
 - 项目 skills 放在 `.claude/skills/`。
 - `skills-lock.json` 必须保存每个 skill 的真实 computed hash。
 
-新增或修改 skill 时，必须同步以下 3 个位置：
+新增或修改 skill 时，必须同步以下 2 个位置：
 
 1. `.claude/skills/{skill}/`
-2. `.agents/skills/{skill}/`（其他 agent 的镜像）
-3. `skills-lock.json`（hash lock）
+2. `skills-lock.json`（hash lock）
 
 修改任何 skill 后必须先运行 `pnpm harness:sync`，再运行 `pnpm harness:check`。

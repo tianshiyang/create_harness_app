@@ -15,7 +15,6 @@ tools: Read, Glob, Grep, Bash
 - `.claude/agents/*.md`
 - `.claude/rules/*.md`
 - `CLAUDE.md`
-- `AGENTS.md`
 - `docs/ai-harness.md`
 - `docs/delivery-template.md`
 - `docs/review-checklist.md`
@@ -32,7 +31,6 @@ tools: Read, Glob, Grep, Bash
 - Stop review 必须在质量门禁失败或 P0/P1 review 问题时阻止结束。
 - 完成通知必须兼容 macOS 和 Windows，并在失败时安全降级。
 - skills 必须同步 lock hash（`skills-lock.json` 中每个 skill 的 `computedHash` 必须与当前文件内容一致）。
-- `.agents/skills/` 必须与 `.claude/skills/` 完全镜像（`diff -r .claude/skills/ .agents/skills/` 输出为空）。
 - harness 脚本的测试必须接入 `pnpm harness:check`，不能只放测试文件。
 - 结构检查必须只约束通用工程护栏，不得固化当前占位业务流程或 mock 数据。
 - harness 配置以源文件为准，不维护额外 generated config inventory。

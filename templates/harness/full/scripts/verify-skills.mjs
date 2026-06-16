@@ -3,10 +3,9 @@
  * 校验 skills 体系的一致性
  *
  * 检查项：
- * 1. .claude/skills 与 .agents/skills 目录结构完全镜像
- * 2. SKILL.md 内容 hash 一致
- * 3. api/assets/references/scripts/templates 等资源目录内容一致
- * 4. skills-lock.json 的 computedHash 与实际目录内容一致
+ * 1. .claude/skills 下每个 skill 都有 SKILL.md 入口
+ * 2. skills-lock.json 的条目与 .claude/skills 目录完全一致
+ * 3. skills-lock.json 的 computedHash 与实际目录内容一致
  *
  * --write 模式：更新 skills-lock.json（用于发布 skill 变更时）
  */
@@ -18,17 +17,8 @@ import path from 'node:path'
 
 const root = process.cwd()
 const skillsDir = path.join(root, '.claude', 'skills')
-const agentsSkillsDir = path.join(root, '.agents', 'skills')
 const lockPath = path.join(root, 'skills-lock.json')
 const writeMode = process.argv.includes('--write')
-const mirroredResourceDirs = new Set([
-  'api',
-  'assets',
-  'examples',
-  'references',
-  'scripts',
-  'templates',
-])
 
 const defaultSources = {
   'element-plus-vue3': {
@@ -103,13 +93,6 @@ async function hashDirectory(dir) {
   return hash.digest('hex')
 }
 
-// 计算单个文件的 SHA-256 hash
-async function hashFile(filePath) {
-  const hash = createHash('sha256')
-  hash.update(await readFile(filePath))
-  return hash.digest('hex')
-}
-
 async function listSkillNames(dir) {
   if (!existsSync(dir)) {
     return []
@@ -142,13 +125,7 @@ async function main() {
     throw new Error(`Missing skills directory: ${skillsDir}`)
   }
 
-  if (!existsSync(agentsSkillsDir)) {
-    throw new Error(`Missing agents skills mirror directory: ${agentsSkillsDir}`)
-  }
-
   const skillNames = await listSkillNames(skillsDir)
-  const agentsSkillNames = await listSkillNames(agentsSkillsDir)
-  assertEqualSets('.agents/skills mirror entries', new Set(agentsSkillNames), new Set(skillNames))
 
   const hashes = {}
 
@@ -188,44 +165,12 @@ async function main() {
   const skillNameSet = new Set(skillNames)
   assertEqualSets('skills-lock.json entries', lockNames, skillNameSet)
 
-  // 校验每个 skill 的镜像同步、SKILL.md hash、资源目录和 lock hash
+  // 校验每个 skill 的入口文件和 lock hash
   for (const skillName of skillNames) {
-    const skillPath = path.join(skillsDir, skillName)
-    const agentsSkillPath = path.join(agentsSkillsDir, skillName)
-    const sourceSkillMd = path.join(skillPath, 'SKILL.md')
-    const mirroredSkillMd = path.join(agentsSkillPath, 'SKILL.md')
+    const sourceSkillMd = path.join(skillsDir, skillName, 'SKILL.md')
 
     if (!existsSync(sourceSkillMd)) {
       throw new Error(`Missing skill entrypoint: ${sourceSkillMd}`)
-    }
-
-    if (!existsSync(mirroredSkillMd)) {
-      throw new Error(`Missing mirrored skill entrypoint: ${mirroredSkillMd}`)
-    }
-
-    if ((await hashFile(sourceSkillMd)) !== (await hashFile(mirroredSkillMd))) {
-      throw new Error(`Mirrored SKILL.md is out of sync for ${skillName}.`)
-    }
-
-    for (const resourceDir of mirroredResourceDirs) {
-      const sourceResourcePath = path.join(skillPath, resourceDir)
-      const mirroredResourcePath = path.join(agentsSkillPath, resourceDir)
-
-      if (!existsSync(sourceResourcePath)) {
-        continue
-      }
-
-      if (!existsSync(mirroredResourcePath)) {
-        throw new Error(
-          `Missing mirrored skill resource: ${toPosix(path.relative(root, mirroredResourcePath))}`,
-        )
-      }
-
-      if (
-        (await hashDirectory(sourceResourcePath)) !== (await hashDirectory(mirroredResourcePath))
-      ) {
-        throw new Error(`Mirrored skill resource is out of sync: ${skillName}/${resourceDir}`)
-      }
     }
 
     const lockedHash = lock.skills?.[skillName]?.computedHash
@@ -238,7 +183,7 @@ async function main() {
   }
 
   process.stdout.write(
-    `Harness skill check passed for ${skillNames.length} skill(s), including .agents/skills mirror.\n`,
+    `Harness skill check passed for ${skillNames.length} skill(s).\n`,
   )
 }
 

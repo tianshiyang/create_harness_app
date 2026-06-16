@@ -4,7 +4,7 @@
  *
  * 覆盖：
  * 1. --write 能生成 lock
- * 2. .agents/skills 镜像内容漂移时会失败
+ * 2. 生成 lock 后复查通过
  */
 
 import assert from 'node:assert/strict'
@@ -43,7 +43,6 @@ description: Sample skill for harness tests.
 `
 
     await writeFixtureFile(root, '.claude/skills/sample-skill/SKILL.md', skill)
-    await writeFixtureFile(root, '.agents/skills/sample-skill/SKILL.md', skill)
 
     await testFn(root)
   } finally {
@@ -58,15 +57,6 @@ await withSkillFixture(async (root) => {
   const checkResult = runVerify(root)
   assert.equal(checkResult.status, 0, checkResult.stderr)
   assert.match(checkResult.stdout, /Harness skill check passed/)
-})
-
-await withSkillFixture(async (root) => {
-  assert.equal(runVerify(root, ['--write']).status, 0)
-  await writeFixtureFile(root, '.agents/skills/sample-skill/SKILL.md', '# Drifted Skill\n')
-
-  const result = runVerify(root)
-  assert.notEqual(result.status, 0)
-  assert.match(result.stderr, /Mirrored SKILL\.md is out of sync/)
 })
 
 console.log('verify-skills tests passed')

@@ -11,7 +11,7 @@ tools: Read, Glob, Grep, Bash
 ## Review 范围
 
 - 检查当前 diff 和所有变更文件。
-- 阅读 `CLAUDE.md`、`AGENTS.md`，以及相关 `.claude/rules/*.md`。
+- 阅读 `CLAUDE.md` 以及相关 `.claude/rules/*.md`。
 
 ### Vue / TypeScript 代码质量
 

@@ -6,7 +6,7 @@
 
 ## 目标
 
-- Claude Code 优先，同时让其他 agent 能从 `AGENTS.md` 读取同一套核心规则。
+- Claude Code 作为唯一执行工具，统一从 `CLAUDE.md` 读取核心规则。
 - 每次 AI 改动都经过质量门禁和 code review subagent。
 - hooks 跨 macOS 和 Windows 可用，不依赖 `jq`、`bash` 或平台专属通知命令。
 - 重要规范进入仓库，可版本化、可 review、可复用。
@@ -14,13 +14,11 @@
 ## 组成
 
 - `CLAUDE.md`：Claude Code 主入口，定义项目事实和执行流程。
-- `AGENTS.md`：模型通用入口，降低不同 agent 的理解差异。
 - `.claude/settings.json`：Claude Code 权限和 hooks 配置。
 - `.claude/hooks/*.cjs`：跨平台 Node hooks。
 - `.claude/agents/*.md`：项目级 review subagents。
 - `.claude/rules/*.md`：可按任务加载的细分规则。
 - `.claude/skills/`：Claude Code 项目 skills 源。
-- `.agents/skills/`：Codex 和其他 agent 使用的项目 skills 镜像。
 - `scripts/verify-skills.mjs`：校验 skills 文档和 lock 是否同步。
 - `scripts/sync-harness-docs.mjs`：校验 harness 文档入口是否完整、是否仍引用废弃清单。
 - `scripts/check-project-structure.mjs`：校验通用前端结构护栏，不固化当前占位业务。
@@ -37,7 +35,7 @@
 - Hook 行为以 `.claude/hooks/*.cjs` 为准。
 - Review agent 定义以 `.claude/agents/*.md` 为准；`.claude/settings.json` 中的 Stop agent 内联 prompt 是当前强制 review 入口。
 - Rules 以 `.claude/rules/*.md` 为准。
-- Skills 以 `.claude/skills/` 为源，`.agents/skills/` 为其他 agent 镜像，`skills-lock.json` 保存校验 hash。
+- Skills 以 `.claude/skills/` 为源，`skills-lock.json` 保存校验 hash。
 - 业务规格以 OpenSpec 的 `openspec/specs/` 为准；待确认或待实现的业务变更以 `openspec/changes/<change-id>/` 为准。
 - 人工审核交付格式以 `docs/delivery-template.md` 为准。
 
@@ -60,7 +58,7 @@
 - `pnpm check:fix`：显式执行格式化与 lint 自动修复。
 - `pnpm harness:structure`：通用前端结构护栏检查，覆盖 route meta 基础约束、动态菜单组件解析、明显第二套菜单/权限源和高风险 Element Plus 深层覆盖提示。
 - `pnpm harness:test`：运行 harness 脚本测试，覆盖结构检查、skill 校验和 hooks 基础行为。
-- `pnpm harness:check`：skills、docs、lock、入口文档、`.agents/skills` 镜像、项目结构护栏和 harness 脚本测试。
+- `pnpm harness:check`：skills、docs、lock、入口文档、项目结构护栏和 harness 脚本测试。
 - `pnpm build`：生产构建校验，适用于构建配置、路由、样式或依赖变更。
 
 ## 维护规则
@@ -72,6 +70,6 @@
 - 修改人工审核流程或交付要求时，同步 `docs/review-checklist.md` 和 `docs/delivery-template.md`。
 - 当前业务代码是占位实现，不允许把项目看板、审核流、mock 数据或临时页面形态沉淀为 harness 规则或工程规范。
 - 业务规格（页面布局、字段口径、状态机、角色权限矩阵、接口契约等）统一放在 OpenSpec。当前有效规格沉淀到 `openspec/specs/`；PRD 链接、钉钉文档更新或口头需求变更先建 `openspec/changes/<change-id>/`，明确来源、影响页面、接口影响、验收标准和待确认问题。
-- OpenSpec 不自动进入 Claude Code 默认上下文，由 AI 按任务需要主动 view。harness 文档（本文件、`docs/harness-quick-reference.md`、`docs/development.md`、`.claude/rules/*`、`CLAUDE.md`、`AGENTS.md`、`GEMINI.md`）只引用 OpenSpec 入口，不复制业务内容。
+- OpenSpec 不自动进入 Claude Code 默认上下文，由 AI 按任务需要主动 view。harness 文档（本文件、`docs/harness-quick-reference.md`、`.claude/rules/*`、`CLAUDE.md`）只引用 OpenSpec 入口，不复制业务内容。
 - 反复使用的业务规则（全局权限矩阵、跨页面状态机）应做成 `.claude/skills/<name>/`，由 AI 按需加载。
 - `quality-gate.cjs stop` 是唯一允许自动格式化的 hook，用于 Stop 收尾；其他 hooks 不得自动格式化、暂存或改写 repo-tracked 文件。`lint-staged` 作为 pre-commit safety net 是另一处显式例外。
