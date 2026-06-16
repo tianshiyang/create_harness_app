@@ -1,6 +1,6 @@
 {
   "name": "@dianzhong/create-harness-app",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "点众前端项目初始化器：封装 create-vue，叠加 UI 库、axios 层与 AI Harness 治理体系",
   "type": "module",
   "bin": {

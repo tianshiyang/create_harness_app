@@ -14,9 +14,11 @@ export const HARNESS_FULL_PKG: MergeAdditions = {
     'husky': '^9.1.7',
   },
   scripts: {
+    'prepare': 'husky',
     'harness:sync': 'node scripts/verify-skills.mjs --write',
     'harness:check': 'node scripts/verify-skills.mjs && node scripts/harness-hooks.test.mjs',
     'harness:test': 'node scripts/harness-hooks.test.mjs && node scripts/verify-skills.test.mjs',
+    'check:fix': 'pnpm format && pnpm lint',
     'check': 'pnpm type-check && pnpm lint && pnpm format:check && pnpm harness:check',
   },
 }

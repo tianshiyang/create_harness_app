@@ -8,6 +8,7 @@ export interface UserConfig {
   uiLibrary: 'element-plus' | 'ant-design-vue' | 'none'
   axios: boolean
   harness: 'full' | 'minimal' | 'none'
+  openspec: boolean
 }
 
 export function defaultConfig(projectName: string): UserConfig {
@@ -19,6 +20,7 @@ export function defaultConfig(projectName: string): UserConfig {
     uiLibrary: 'element-plus',
     axios: true,
     harness: 'full',
+    openspec: true,
   }
 }
 
@@ -60,5 +62,7 @@ export async function collectConfig(initialName?: string): Promise<UserConfig> {
     ],
   }))
 
-  return { projectName, router, pinia, vitest, uiLibrary, axios, harness }
+  const openspec = check(await confirm({ message: '启用 OpenSpec 业务规格管理？', initialValue: true }))
+
+  return { projectName, router, pinia, vitest, uiLibrary, axios, harness, openspec }
 }

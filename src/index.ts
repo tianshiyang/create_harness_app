@@ -13,6 +13,7 @@ function parseArgs(argv: string[]) {
     uiLibrary:   argv.find(a => a.startsWith('--ui='))?.split('=')[1]      as UserConfig['uiLibrary'] | undefined,
     harness:     argv.find(a => a.startsWith('--harness='))?.split('=')[1] as UserConfig['harness']   | undefined,
     noAxios:     argv.includes('--no-axios'),
+    noOpenspec:  argv.includes('--no-openspec'),
     vitest:      argv.includes('--vitest'),
   }
 }
@@ -24,17 +25,18 @@ async function main() {
     log(`Usage: create-harness-app [project-name] [options]
 
 Options:
-  --yes              Non-interactive: TS + Router + Pinia + ElementPlus + axios + harness:full
+  --yes              Non-interactive: TS + Router + Pinia + ElementPlus + axios + harness:full + OpenSpec
   --ui=<lib>         element-plus | ant-design-vue | none  (default: element-plus)
   --harness=<level>  full | minimal | none                 (default: full)
   --no-axios         Skip axios layer
+  --no-openspec      Skip OpenSpec spec management
   --vitest           Enable Vitest
   -h, --help         Show this help
 
 Examples:
   npm create @dianzhong/harness-app my-app
   npm create @dianzhong/harness-app my-app -- --yes
-  npm create @dianzhong/harness-app my-app -- --ui=ant-design-vue --harness=minimal
+  npm create @dianzhong/harness-app my-app -- --ui=ant-design-vue --harness=minimal --no-openspec
 `)
     process.exit(0)
   }
@@ -47,9 +49,10 @@ Examples:
       uiLibrary: args.uiLibrary ?? base.uiLibrary,
       harness:   args.harness   ?? base.harness,
       axios:     !args.noAxios,
+      openspec:  !args.noOpenspec,
       vitest:    args.vitest,
     }
-    info(`非交互模式: ${config.projectName} | UI=${config.uiLibrary} | harness=${config.harness}`)
+    info(`非交互模式: ${config.projectName} | UI=${config.uiLibrary} | harness=${config.harness} | openspec=${config.openspec}`)
   } else {
     config = await collectConfig(args.projectName)
   }
@@ -75,6 +78,7 @@ Examples:
   log('  pnpm install')
   if (config.harness === 'full') log('  pnpm harness:sync   # 重算 skills 指纹')
   log('  pnpm dev\n')
+  if (config.openspec) log('  OpenSpec 已就绪：在 Claude Code 里用 /opsx:propose "你的需求" 开始第一个变更\n')
 }
 
 main().catch((err) => {

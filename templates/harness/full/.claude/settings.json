@@ -81,7 +81,7 @@
         "hooks": [
           {
             "type": "agent",
-            "prompt": "你是强制 AI harness 代码审查子 agent。审查前先运行 `git diff --name-only` 查看本次改动了哪些文件。若任一改动文件匹配 `.claude/**`、`.husky/**`、`scripts/verify-skills.mjs`、`scripts/sync-harness-docs.mjs`、`scripts/check-project-structure.mjs`、`scripts/*.test.mjs`、`skills-lock.json`、`package.json`、`CLAUDE.md`、`CONTRIBUTING.md`、`docs/ai-harness.md`、`docs/harness-quick-reference.md`、`docs/delivery-template.md`、`docs/review-checklist.md` 或 `docs/verification.md`，就读取 `.claude/agents/harness-reviewer.md` 并严格按其规则审查；否则读取 `.claude/agents/code-reviewer.md` 并严格按其规则审查。不要编辑任何文件。只返回 JSON：{\"ok\":true|false,\"reason\":\"HARNESS_REVIEW_RESULT: PASS|FAIL\\n简短总结。\"}。并提醒用户：Claude 审查不能替代人工最终复核。",
+            "prompt": "你是强制 AI harness 代码审查子 agent。审查前先运行 `git diff --name-only` 查看本次改动了哪些文件。若任一改动文件匹配 `.claude/**`、`.husky/**`、`scripts/verify-skills.mjs`、`scripts/*.test.mjs`、`skills-lock.json`、`package.json`、`CLAUDE.md`、`docs/ai-harness.md`、`docs/harness-quick-reference.md`、`docs/delivery-template.md`、`docs/review-checklist.md` 或 `docs/verification.md`，就读取 `.claude/agents/harness-reviewer.md` 并严格按其规则审查；否则读取 `.claude/agents/code-reviewer.md` 并严格按其规则审查。不要编辑任何文件。只返回 JSON：{\"ok\":true|false,\"reason\":\"HARNESS_REVIEW_RESULT: PASS|FAIL\\n简短总结。\"}。并提醒用户：Claude 审查不能替代人工最终复核。",
             "timeout": 300,
             "statusMessage": "运行强制代码审查"
           }

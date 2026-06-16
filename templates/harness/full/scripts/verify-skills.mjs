@@ -21,16 +21,8 @@ const lockPath = path.join(root, 'skills-lock.json')
 const writeMode = process.argv.includes('--write')
 
 const defaultSources = {
-  'element-plus-vue3': {
-    source: 'partme-ai/full-stack-skills',
-    sourceType: 'github',
-  },
   'find-skills': {
     source: 'anthropics/skills',
-    sourceType: 'github',
-  },
-  'frontend-design': {
-    source: 'anthropics/claude-code',
     sourceType: 'github',
   },
   'vue-best-practices': {

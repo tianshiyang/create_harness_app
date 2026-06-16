@@ -20,7 +20,6 @@ tools: Read, Glob, Grep, Bash
 - `docs/review-checklist.md`
 - `docs/verification.md`
 - `skills-lock.json`
-- `scripts/check-project-structure.mjs`
 - `scripts/*.test.mjs`
 - `package.json` scripts 和 `.husky/*`
 
@@ -32,7 +31,6 @@ tools: Read, Glob, Grep, Bash
 - 完成通知必须兼容 macOS 和 Windows，并在失败时安全降级。
 - skills 必须同步 lock hash（`skills-lock.json` 中每个 skill 的 `computedHash` 必须与当前文件内容一致）。
 - harness 脚本的测试必须接入 `pnpm harness:check`，不能只放测试文件。
-- 结构检查必须只约束通用工程护栏，不得固化当前占位业务流程或 mock 数据。
 - harness 配置以源文件为准，不维护额外 generated config inventory。
 - 敏感文件和危险命令必须被拒绝。
 - 人工审核交付要求必须在入口文档、速查表、review checklist、delivery template 和 reviewer 规则中保持一致。
