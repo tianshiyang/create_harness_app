@@ -34,6 +34,13 @@ export async function overlay(projectRoot: string, config: UserConfig): Promise<
   if (config.harness !== 'none') {
     await overlayHarness(projectRoot, config.harness)
     merge(config.harness === 'full' ? HARNESS_FULL_PKG : HARNESS_MINIMAL_PKG)
+
+    // harness 的 check 脚本会调用 pnpm format:check，但 create-vue 只生成 format（--write）。
+    // 从现有 format 脚本派生 format:check（--write → --check），与 create-vue 的 prettier 参数保持一致。
+    const existingScripts = (pkg.scripts ?? {}) as Record<string, string>
+    if (existingScripts.format?.includes('--write') && !existingScripts['format:check']) {
+      add.scripts!['format:check'] = existingScripts.format.replace('--write', '--check')
+    }
   }
 
   pkg = mergePackageJson(pkg, add)
