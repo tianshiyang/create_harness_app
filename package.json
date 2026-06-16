@@ -1,12 +1,24 @@
 {
   "name": "@dianzhong/create-harness-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "点众前端项目初始化器：封装 create-vue，叠加 UI 库、axios 层与 AI Harness 治理体系",
   "type": "module",
-  "bin": { "create-harness-app": "dist/index.mjs" },
-  "files": ["dist/", "templates/"],
-  "engines": { "node": "^20.19.0 || >=22.12.0" },
-  "keywords": ["create-vue", "scaffold", "harness", "vue3"],
+  "bin": {
+    "create-harness-app": "dist/index.mjs"
+  },
+  "files": [
+    "dist/",
+    "templates/"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "keywords": [
+    "create-vue",
+    "scaffold",
+    "harness",
+    "vue3"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "tsup",

@@ -1,45 +1,10 @@
 {
   "version": 1,
   "skills": {
-    "element-plus-vue3": {
-      "source": "partme-ai/full-stack-skills",
-      "sourceType": "github",
-      "computedHash": "a2d4fa311bdce8b6e914ad5a84b9e6a1985a8df59a94aae8259b7aff7a3db41e"
-    },
     "find-skills": {
       "source": "anthropics/skills",
       "sourceType": "github",
       "computedHash": "c6bcd076436f910c67f591a5a83f8e6182a2b71d22a686084854fe9924324567"
-    },
-    "frontend-design": {
-      "source": "anthropics/claude-code",
-      "sourceType": "github",
-      "computedHash": "514ce855a27bfcf4e883a46fc02c68a3bc9cd8571a2d3fe5ac1aa93cde008433"
-    },
-    "openspec-apply-change": {
-      "source": "project-local",
-      "sourceType": "local",
-      "computedHash": "b0d3d68a1782fd8fd9c5b54c057461079bbdf8d8d597be2d2dc0d990f5f5509d"
-    },
-    "openspec-archive-change": {
-      "source": "project-local",
-      "sourceType": "local",
-      "computedHash": "cef47988c2959dbd2967efd2553bc94dc01178cffc76ae39c2d841eb4d5e6326"
-    },
-    "openspec-explore": {
-      "source": "partme-ai/full-stack-skills",
-      "sourceType": "github",
-      "computedHash": "7f84a20d2e1c238585bce57750d498c18d52ad7be6f2842f486bbdd074c29cf7"
-    },
-    "openspec-propose": {
-      "source": "project-local",
-      "sourceType": "local",
-      "computedHash": "5f1b30ef0e2134741b29affd8c5815d4e66d36bcf9404034bdb056bb6c25e405"
-    },
-    "project-structure-guard": {
-      "source": "project-local",
-      "sourceType": "local",
-      "computedHash": "bae2ec47defeae0d996fca6c05bce6d138ec31909bf0625ecc942926491fca72"
     },
     "vue-best-practices": {
       "source": "moeru-ai/airi",
